@@ -44,7 +44,7 @@ class SeederBaseDatos extends Seeder
         ];
 
         foreach ($ejercicios as $ej) {
-            Ejercicio::create($ej);
+      //      Ejercicio::create($ej);
         }
     }
 }

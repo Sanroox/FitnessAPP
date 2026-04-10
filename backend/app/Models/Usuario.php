@@ -4,11 +4,10 @@ namespace App\Models;
 
 use Illuminate\Foundation\Auth\User as Autenticable;
 use Illuminate\Notifications\Notifiable;
-use Laravel\Sanctum\HasApiTokens;
 
 class Usuario extends Autenticable
 {
-    use HasApiTokens, Notifiable;
+    use Notifiable;
 
     protected $table = 'usuarios';
 
