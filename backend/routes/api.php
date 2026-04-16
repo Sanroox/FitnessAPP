@@ -3,9 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ControladorAuth;
 use App\Http\Controllers\ControladorEjercicio;
-// Comentamos estos porque aún no existen los archivos en tu carpeta
-// use App\Http\Controllers\ControladorRutina;
-// use App\Http\Controllers\ControladorAdmin;
+use App\Http\Controllers\ControladorRutina;
 
 /*
 |--------------------------------------------------------------------------
@@ -25,24 +23,33 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/perfil',         [ControladorAuth::class, 'perfil']);
 
     // --- PUNTO 5: EJERCICIOS ---
-    Route::get('/ejercicios',          [ControladorEjercicio::class, 'listar']);
-    Route::get('/ejercicios/grupos',   [ControladorEjercicio::class, 'gruposMusculares']);
-    Route::get('/ejercicios/{id}',     [ControladorEjercicio::class, 'mostrar']);
+    Route::prefix('ejercicios')->group(function () {
+        Route::get('/',           [ControladorEjercicio::class, 'listar']);
+        Route::get('/grupos',     [ControladorEjercicio::class, 'gruposMusculares']);
+        Route::get('/{id}',       [ControladorEjercicio::class, 'mostrar']);
+    });
 
-    /* COMENTADO HASTA EL PUNTO 7: RUTINAS
-    Route::get('/rutinas',             [ControladorRutina::class, 'listar']);
-    Route::post('/rutinas',            [ControladorRutina::class, 'crear']);
-    Route::get('/rutinas/{id}',        [ControladorRutina::class, 'mostrar']);
-    Route::put('/rutinas/{id}',        [ControladorRutina::class, 'actualizar']);
-    Route::delete('/rutinas/{id}',     [ControladorRutina::class, 'eliminar']);
+    // --- PUNTO 7: RUTINAS ---
+    Route::prefix('rutinas')->group(function () {
+        // Gestión básica de la Rutina
+        Route::get('/',           [ControladorRutina::class, 'listar']);
+        Route::post('/',          [ControladorRutina::class, 'crear']);
+        Route::get('/{id}',       [ControladorRutina::class, 'mostrar']);
+        Route::put('/{id}',       [ControladorRutina::class, 'actualizar']);
+        Route::delete('/{id}',    [ControladorRutina::class, 'eliminar']);
 
-    Route::post('/rutinas/{id}/ejercicios',               [ControladorRutina::class, 'agregarEjercicio']);
-    Route::put('/rutinas/{id}/ejercicios/{ejId}',         [ControladorRutina::class, 'actualizarEjercicio']);
-    Route::delete('/rutinas/{id}/ejercicios/{ejId}',      [ControladorRutina::class, 'quitarEjercicio']);
-    */
+        // Gestión de Ejercicios dentro de la rutina
+        Route::post('/{id}/ejercicios',                [ControladorRutina::class, 'agregarEjercicio']);
+        Route::put('/{id}/ejercicios/{ejId}',          [ControladorRutina::class, 'actualizarEjercicio']);
+        Route::delete('/{id}/ejercicios/{ejId}',       [ControladorRutina::class, 'quitarEjercicio']);
+    });
 
     /*
-       COMENTADO HASTA EL PUNTO DE ADMIN
+    |--------------------------------------------------------------------------
+    | PUNTO DE ADMIN (Pendiente)
+    |--------------------------------------------------------------------------
+    */
+    /*
     Route::middleware('admin')->prefix('admin')->group(function () {
         Route::get('/usuarios',                  [ControladorAdmin::class, 'usuarios']);
         Route::put('/usuarios/{id}/rol',         [ControladorAdmin::class, 'actualizarRol']);
