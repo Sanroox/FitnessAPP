@@ -117,5 +117,6 @@ class ControladorRutina extends Controller
 
         return response()->json(['mensaje' => 'Ejercicio quitado de la rutina.']);
     }
+    
 
 }
