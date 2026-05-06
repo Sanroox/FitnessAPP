@@ -43,4 +43,5 @@ class ControladorEjercicio extends Controller
 
         return response()->json($grupos);
     }
+    
 }
