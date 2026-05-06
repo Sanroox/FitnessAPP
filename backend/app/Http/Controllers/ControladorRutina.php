@@ -117,5 +117,26 @@ class ControladorRutina extends Controller
 
         return response()->json(['mensaje' => 'Ejercicio quitado de la rutina.']);
     }
+/**
+     * Eliminar una rutina completa.
+     */
+    public function eliminar(Request $request, $id): JsonResponse
+    {
+        // 1. Buscamos la rutina por ID
+        $rutina = Rutina::findOrFail($id);
 
+        // 2. SEGURIDAD: Solo el dueño o un ADMIN pueden borrarla
+        if ($rutina->usuario_id !== $request->user()->id && $request->user()->rol !== 'admin') {
+            return response()->json(['mensaje' => 'No tienes permisos para realizar esta acción.'], 403);
+        }
+
+        // 3. Limpiamos la tabla pivote antes de borrar
+        // Esto elimina las relaciones en la tabla 'rutina_ejercicio'
+        $rutina->ejercicios()->detach();
+
+        // 4. Borramos la rutina
+        $rutina->delete();
+
+        return response()->json(['mensaje' => 'Rutina eliminada correctamente.']);
+    }
 }
