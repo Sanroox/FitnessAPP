@@ -64,19 +64,19 @@ class ControladorAdmin extends Controller
 
                 $ejercicios = $respuesta->json();
                 foreach ($ejercicios as $ej) {
-                    Ejercicio::updateOrCreate(
-                        ['id_externo' => $ej['id']],
-                        [
-                            'nombre'          => ucfirst($ej['name']),
-                            'grupo_muscular'  => $ej['bodyPart'],
-                            'musculo_objetivo'=> $ej['target'],
-                            'equipamiento'    => $ej['equipment'],
-                            'url_gif'         => $ej['gifUrl'],
-                            'instrucciones'   => implode(' ', $ej['instructions'] ?? []),
-                        ]
-                    );
-                    $total++;
-                }
+    Ejercicio::updateOrCreate(
+        ['id_externo' => $ej['id']],
+        [
+            'nombre'          => ucfirst($ej['name'] ?? 'Sin nombre'),
+            'grupo_muscular'  => $ej['bodyPart'] ?? 'Otros',
+            'musculo_objetivo'=> $ej['target'] ?? 'General',
+            'equipamiento'    => $ej['equipment'] ?? 'Ninguno',
+            'url_gif'         => $ej['gifUrl'] ?? null, // <-- Aquí estaba el fallo, ahora es seguro
+            'instrucciones'   => implode(' ', $ej['instructions'] ?? []),
+        ]
+    );
+    $total++;
+}
                 $offset += $limite;
             } while (count($ejercicios) === $limite);
 

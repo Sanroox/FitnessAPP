@@ -2,6 +2,6 @@
 
 return [
     'exercisedb' => [
-        'clave' => env('EXERCISEDB_CLAVE_API', ''),
-    ],
+    'clave' => env('EXERCISE_DB_KEY'),
+],
 ];

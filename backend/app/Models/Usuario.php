@@ -44,4 +44,5 @@ class Usuario extends Autenticable
     {
         return $this->rol === 'admin';
     }
+    
 }
