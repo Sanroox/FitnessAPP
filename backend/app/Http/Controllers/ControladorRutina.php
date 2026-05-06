@@ -105,18 +105,6 @@ class ControladorRutina extends Controller
         return response()->json(['mensaje' => 'Datos de ejercicio actualizados']);
     }
 
-    /**
-     * Quitar un ejercicio de la rutina.
-     */
-    public function quitarEjercicio(Request $request, $id, $ejercicioId): JsonResponse
-    {
-        $rutina = $request->user()->rutinas()->findOrFail($id);
-
-        // Pro: detach() elimina la relación en la tabla intermedia
-        $rutina->ejercicios()->detach($ejercicioId);
-
-        return response()->json(['mensaje' => 'Ejercicio quitado de la rutina.']);
-    }
 /**
      * Eliminar una rutina completa.
      */
@@ -139,4 +127,15 @@ class ControladorRutina extends Controller
 
         return response()->json(['mensaje' => 'Rutina eliminada correctamente.']);
     }
+    public function quitarEjercicio(Rutina $rutina, $ejercicioId)
+{
+    // detach() busca en la tabla intermedia (rutina_ejercicio) y borra esa relación
+    $rutina->ejercicios()->detach($ejercicioId);
+
+    return response()->json([
+        'mensaje' => 'Ejercicio quitado de la rutina con éxito',
+        'rutina_id' => $rutina->id,
+        'ejercicio_id' => $ejercicioId
+    ], 200);
+}
 }

@@ -38,10 +38,10 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::put('/{id}',       [ControladorRutina::class, 'actualizar']);
         Route::delete('/{id}',    [ControladorRutina::class, 'eliminar']);
 
-        // Gestión de Ejercicios dentro de la rutina
-        Route::post('/{id}/ejercicios',                [ControladorRutina::class, 'agregarEjercicio']);
-        Route::put('/{id}/ejercicios/{ejId}',          [ControladorRutina::class, 'actualizarEjercicio']);
-        Route::delete('/{id}/ejercicios/{ejId}',       [ControladorRutina::class, 'quitarEjercicio']);
+       // Gestión de Ejercicios dentro de la rutina
+Route::post('/{id}/ejercicios',                [ControladorRutina::class, 'agregarEjercicio']);
+Route::put('/{id}/ejercicios/{ejId}',          [ControladorRutina::class, 'actualizarEjercicio']);
+Route::delete('/{rutina}/ejercicios/{ejId}',   [ControladorRutina::class, 'quitarEjercicio']);    [ControladorRutina::class, 'quitarEjercicio']);
     });
 
     /*
