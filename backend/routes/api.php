@@ -41,8 +41,7 @@ Route::middleware('auth:sanctum')->group(function () {
        // Gestión de Ejercicios dentro de la rutina
 Route::post('/{id}/ejercicios',                [ControladorRutina::class, 'agregarEjercicio']);
 Route::put('/{id}/ejercicios/{ejId}',          [ControladorRutina::class, 'actualizarEjercicio']);
-Route::delete('/{rutina}/ejercicios/{ejId}',   [ControladorRutina::class, 'quitarEjercicio']);    [ControladorRutina::class, 'quitarEjercicio']);
-    });
+Route::delete('/{rutina}/ejercicios/{ejId}', [ControladorRutina::class, 'quitarEjercicio']);    });
 
     /*
     |--------------------------------------------------------------------------
