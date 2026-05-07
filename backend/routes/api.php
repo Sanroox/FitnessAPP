@@ -16,27 +16,28 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('/cerrar-sesion', [ControladorAuth::class, 'cerrarSesion']);
     Route::get('/perfil',         [ControladorAuth::class, 'perfil']);
 
-    // Ejercicios
+    // --- EJERCICIOS ---
     Route::prefix('ejercicios')->group(function () {
         Route::get('/',           [ControladorEjercicio::class, 'listar']);
         Route::get('/grupos',     [ControladorEjercicio::class, 'gruposMusculares']);
         Route::get('/{id}',       [ControladorEjercicio::class, 'mostrar']);
     });
 
-    // Rutinas
+    // --- RUTINAS ---
     Route::prefix('rutinas')->group(function () {
         Route::get('/',           [ControladorRutina::class, 'listar']);
         Route::post('/',          [ControladorRutina::class, 'crear']);
         Route::get('/{id}',       [ControladorRutina::class, 'mostrar']);
         Route::put('/{id}',       [ControladorRutina::class, 'actualizar']);
         Route::delete('/{id}',    [ControladorRutina::class, 'eliminar']);
-        
-        Route::post('/{id}/ejercicios',          [ControladorRutina::class, 'agregarEjercicio']);
-        Route::put('/{id}/ejercicios/{ejId}',    [ControladorRutina::class, 'actualizarEjercicio']);
-        Route::delete('/{id}/ejercicios/{ejId}', [ControladorRutina::class, 'quitarEjercicio']);
+
+        // Gestión de Ejercicios dentro de la rutina
+        Route::post('/{id}/ejercicios',                [ControladorRutina::class, 'agregarEjercicio']);
+        Route::put('/{id}/ejercicios/{ejId}',          [ControladorRutina::class, 'actualizarEjercicio']);
+        Route::delete('/{rutina}/ejercicios/{ejId}',   [ControladorRutina::class, 'quitarEjercicio']);
     });
 
-    // --- PUNTO 9: ADMIN ---
+    // --- ADMIN ---
     Route::prefix('admin')->group(function () {
         Route::get('/estadisticas',            [ControladorAdmin::class, 'estadisticas']);
         Route::get('/usuarios',                [ControladorAdmin::class, 'usuarios']);
