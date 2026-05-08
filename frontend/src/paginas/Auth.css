@@ -543,15 +543,8 @@
 
 .cat-grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);  
-  gap: 0.6rem;
-}
-
-@media (min-width: 640px) {
-  .cat-grid {
-    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-    gap: 1rem;
-  }
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 1rem;
 }
 
 .tarjeta-ej {
@@ -800,4 +793,674 @@
   border: none;
   border-top: 1px solid var(--auth-border);
   margin: 1.8rem 0;
+}
+
+/* ══════════════════════════════════════════════════
+   RUTINAS — COMPARTIDO
+══════════════════════════════════════════════════ */
+
+.page-wrap {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2.5rem 1.5rem;
+}
+
+.page-wrap-sm {
+  max-width: 680px;
+  margin: 0 auto;
+  padding: 2.5rem 1.5rem;
+}
+
+.page-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 2rem;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.page-titulo {
+  font-family: var(--display);
+  font-size: clamp(1.8rem, 3.5vw, 2.8rem);
+  letter-spacing: 0.05em;
+  color: var(--auth-text);
+  line-height: 1;
+  margin: 0;
+}
+
+.page-titulo em {
+  font-style: normal;
+  color: var(--auth-accent);
+}
+
+/* Botón primario */
+.r-btn {
+  font-family: var(--display);
+  font-size: 0.85rem;
+  letter-spacing: 0.1em;
+  background: var(--auth-accent);
+  color: #0c0c0c;
+  border: none;
+  border-radius: 6px;
+  padding: 0.6rem 1.2rem;
+  cursor: pointer;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  transition: opacity 0.15s;
+  white-space: nowrap;
+}
+.r-btn:hover { opacity: 0.85; }
+.r-btn:disabled { opacity: 0.4; cursor: not-allowed; }
+
+/* Botón secundario */
+.r-btn-sec {
+  font-family: var(--display);
+  font-size: 0.82rem;
+  letter-spacing: 0.1em;
+  background: transparent;
+  color: var(--auth-muted);
+  border: 1px solid var(--auth-border);
+  border-radius: 6px;
+  padding: 0.6rem 1.2rem;
+  cursor: pointer;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  transition: color 0.15s, border-color 0.15s;
+  white-space: nowrap;
+}
+.r-btn-sec:hover { color: var(--auth-text); border-color: rgba(245,245,245,0.25); }
+
+/* Botón peligro */
+.r-btn-danger {
+  font-family: var(--display);
+  font-size: 0.82rem;
+  letter-spacing: 0.1em;
+  background: transparent;
+  color: var(--auth-muted);
+  border: 1px solid var(--auth-border);
+  border-radius: 6px;
+  padding: 0.5rem 1rem;
+  cursor: pointer;
+  transition: color 0.15s, border-color 0.15s;
+}
+.r-btn-danger:hover { color: var(--auth-danger); border-color: var(--auth-danger); }
+
+/* Input genérico reutilizable */
+.r-input {
+  width: 100%;
+  box-sizing: border-box;
+  background: #111;
+  border: 1px solid var(--auth-border);
+  border-radius: 6px;
+  padding: 0.65rem 0.9rem;
+  font-size: 0.85rem;
+  font-family: var(--body);
+  color: var(--auth-text);
+  outline: none;
+  transition: border-color 0.15s, box-shadow 0.15s;
+  caret-color: var(--auth-accent);
+}
+.r-input::placeholder { color: rgba(245,245,245,0.2); }
+.r-input:focus { border-color: var(--auth-accent); box-shadow: 0 0 0 3px var(--auth-accent-dim); }
+
+.r-textarea {
+  width: 100%;
+  box-sizing: border-box;
+  background: #111;
+  border: 1px solid var(--auth-border);
+  border-radius: 6px;
+  padding: 0.65rem 0.9rem;
+  font-size: 0.85rem;
+  font-family: var(--body);
+  color: var(--auth-text);
+  outline: none;
+  resize: none;
+  transition: border-color 0.15s;
+  caret-color: var(--auth-accent);
+}
+.r-textarea:focus { border-color: var(--auth-accent); box-shadow: 0 0 0 3px var(--auth-accent-dim); }
+
+.r-label {
+  display: block;
+  font-size: 0.62rem;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--auth-muted);
+  margin-bottom: 0.4rem;
+}
+
+.r-field { margin-bottom: 1.1rem; }
+
+.r-err {
+  background: var(--auth-danger-dim);
+  border: 1px solid rgba(255,92,92,0.2);
+  border-radius: 6px;
+  padding: 0.7rem 1rem;
+  font-size: 0.85rem;
+  color: var(--auth-danger);
+  margin-bottom: 1.2rem;
+}
+
+/* ── Tarjeta rutina ───────────────────────────────── */
+
+.tarjeta-rutina {
+  background: #181818;
+  border: 1px solid var(--auth-border);
+  border-radius: 8px;
+  padding: 1.3rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  transition: border-color 0.15s, transform 0.15s;
+}
+.tarjeta-rutina:hover { border-color: rgba(200,255,0,0.2); transform: translateY(-1px); }
+
+.tr-nombre {
+  font-size: 1rem;
+  font-weight: 500;
+  color: var(--auth-text);
+  margin: 0;
+  line-height: 1.3;
+}
+
+.tr-desc {
+  font-size: 0.78rem;
+  font-weight: 300;
+  color: var(--auth-muted);
+  margin: 0;
+  line-height: 1.5;
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+}
+
+.tr-meta {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.tr-badge {
+  font-size: 0.62rem;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--auth-accent);
+  background: var(--auth-accent-dim);
+  border-radius: 4px;
+  padding: 0.2rem 0.5rem;
+}
+
+.tr-ejercicios-preview {
+  font-size: 0.72rem;
+  color: var(--auth-muted);
+  font-weight: 300;
+}
+
+.tr-acciones {
+  display: flex;
+  gap: 0.5rem;
+  margin-top: auto;
+}
+
+/* ── Grid rutinas ──────────────────────────────────── */
+
+.rutinas-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 1rem;
+}
+
+/* ── Estado vacío ─────────────────────────────────── */
+
+.estado-vacio {
+  text-align: center;
+  padding: 5rem 1rem;
+  border: 1px dashed var(--auth-border);
+  border-radius: 8px;
+}
+.estado-vacio-num {
+  font-family: var(--display);
+  font-size: 3rem;
+  color: rgba(200,255,0,0.12);
+  letter-spacing: 0.1em;
+  display: block;
+  margin-bottom: 1rem;
+}
+.estado-vacio p { color: var(--auth-muted); font-size: 0.85rem; font-weight: 300; margin: 0 0 0.4rem; }
+
+/* ── Panel principal hero ─────────────────────────── */
+
+.hero-panel {
+  background: #181818;
+  border: 1px solid var(--auth-border);
+  border-left: 3px solid var(--auth-accent);
+  border-radius: 8px;
+  padding: 2rem 2.5rem;
+  margin-bottom: 2.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 2rem;
+  flex-wrap: wrap;
+  position: relative;
+  overflow: hidden;
+}
+.hero-panel::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse 50% 100% at 0% 50%, rgba(200,255,0,0.04) 0%, transparent 100%);
+  pointer-events: none;
+}
+.hero-saludo {
+  font-family: var(--display);
+  font-size: clamp(1.6rem, 3vw, 2.4rem);
+  letter-spacing: 0.05em;
+  color: var(--auth-text);
+  margin: 0 0 0.3rem;
+}
+.hero-saludo em { font-style: normal; color: var(--auth-accent); }
+.hero-sub { font-size: 0.82rem; font-weight: 300; color: var(--auth-muted); margin: 0 0 1.4rem; }
+.hero-acciones { display: flex; gap: 0.75rem; flex-wrap: wrap; }
+
+.hero-stats {
+  display: flex;
+  gap: 2rem;
+  position: relative;
+  z-index: 1;
+}
+.hero-stat-num {
+  font-family: var(--display);
+  font-size: 2.5rem;
+  color: var(--auth-accent);
+  display: block;
+  line-height: 1;
+}
+.hero-stat-lbl {
+  font-size: 0.6rem;
+  font-weight: 300;
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+  color: var(--auth-muted);
+  margin-top: 0.2rem;
+  display: block;
+}
+
+/* ── Detalle rutina ───────────────────────────────── */
+
+.det-rutina-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 2rem;
+  flex-wrap: wrap;
+}
+
+.det-rutina-nombre {
+  font-family: var(--display);
+  font-size: clamp(1.8rem, 4vw, 2.8rem);
+  letter-spacing: 0.04em;
+  color: var(--auth-text);
+  line-height: 1;
+  margin: 0 0 0.4rem;
+}
+
+.det-rutina-desc {
+  font-size: 0.82rem;
+  font-weight: 300;
+  color: var(--auth-muted);
+  margin: 0;
+}
+
+/* Fila ejercicio */
+.ej-fila {
+  background: #181818;
+  border: 1px solid var(--auth-border);
+  border-radius: 8px;
+  overflow: hidden;
+  margin-bottom: 0.6rem;
+  transition: border-color 0.15s;
+}
+.ej-fila:hover { border-color: rgba(245,245,245,0.15); }
+
+.ej-fila-principal {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 0.9rem 1rem;
+}
+
+.ej-num {
+  font-family: var(--display);
+  font-size: 1.1rem;
+  color: rgba(200,255,0,0.3);
+  width: 1.4rem;
+  text-align: center;
+  flex-shrink: 0;
+}
+
+.ej-gif {
+  width: 52px;
+  height: 52px;
+  object-fit: contain;
+  background: #111;
+  border-radius: 6px;
+  flex-shrink: 0;
+}
+
+.ej-gif-placeholder {
+  width: 52px;
+  height: 52px;
+  background: #111;
+  border-radius: 6px;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--display);
+  font-size: 1rem;
+  color: rgba(200,255,0,0.2);
+}
+
+.ej-info { flex: 1; min-width: 0; }
+
+.ej-nombre {
+  font-size: 0.88rem;
+  font-weight: 500;
+  color: var(--auth-text);
+  text-transform: capitalize;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  margin: 0 0 0.2rem;
+}
+
+.ej-chips {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.ej-chip {
+  font-size: 0.62rem;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--auth-muted);
+  background: rgba(245,245,245,0.05);
+  border-radius: 3px;
+  padding: 0.15rem 0.45rem;
+}
+
+.ej-chip-accent {
+  color: var(--auth-accent);
+  background: var(--auth-accent-dim);
+}
+
+.ej-acciones {
+  display: flex;
+  gap: 0.4rem;
+  flex-shrink: 0;
+}
+
+.ej-btn-icon {
+  background: transparent;
+  border: 1px solid var(--auth-border);
+  border-radius: 4px;
+  width: 30px;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 0.8rem;
+  color: var(--auth-muted);
+  transition: color 0.15s, border-color 0.15s;
+}
+.ej-btn-icon:hover { color: var(--auth-accent); border-color: var(--auth-accent); }
+.ej-btn-icon.danger:hover { color: var(--auth-danger); border-color: var(--auth-danger); }
+
+/* Panel edición inline */
+.ej-edit-panel {
+  border-top: 1px solid var(--auth-border);
+  padding: 1rem;
+  background: #111;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.75rem;
+}
+
+.ej-edit-actions {
+  grid-column: 1 / -1;
+  display: flex;
+  gap: 0.5rem;
+  justify-content: flex-end;
+}
+
+/* ── Modal ────────────────────────────────────────── */
+
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.75);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 100;
+  padding: 1rem;
+}
+
+.modal-box {
+  background: #181818;
+  border: 1px solid var(--auth-border);
+  border-radius: 10px;
+  width: 100%;
+  max-width: 520px;
+  max-height: 90vh;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1.2rem 1.5rem;
+  border-bottom: 1px solid var(--auth-border);
+}
+
+.modal-titulo {
+  font-family: var(--display);
+  font-size: 1.1rem;
+  letter-spacing: 0.08em;
+  color: var(--auth-text);
+  margin: 0;
+}
+
+.modal-cerrar {
+  background: transparent;
+  border: none;
+  color: var(--auth-muted);
+  font-size: 1.1rem;
+  cursor: pointer;
+  transition: color 0.15s;
+  line-height: 1;
+}
+.modal-cerrar:hover { color: var(--auth-text); }
+
+.modal-body {
+  padding: 1.2rem 1.5rem;
+  overflow-y: auto;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.modal-footer {
+  padding: 1rem 1.5rem;
+  border-top: 1px solid var(--auth-border);
+  display: flex;
+  gap: 0.75rem;
+}
+
+/* Lista ejercicios modal */
+.modal-ej-lista {
+  border: 1px solid var(--auth-border);
+  border-radius: 6px;
+  max-height: 220px;
+  overflow-y: auto;
+}
+
+.modal-ej-item {
+  width: 100%;
+  text-align: left;
+  background: transparent;
+  border: none;
+  border-bottom: 1px solid var(--auth-border);
+  padding: 0.65rem 1rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  transition: background 0.1s;
+  color: var(--auth-text);
+  font-family: var(--body);
+}
+.modal-ej-item:last-child { border-bottom: none; }
+.modal-ej-item:hover { background: rgba(245,245,245,0.04); }
+.modal-ej-item.seleccionado { background: var(--auth-accent-dim); }
+
+.modal-ej-item-nombre {
+  font-size: 0.82rem;
+  font-weight: 500;
+  text-transform: capitalize;
+  color: var(--auth-text);
+}
+.modal-ej-item.seleccionado .modal-ej-item-nombre { color: var(--auth-accent); }
+
+.modal-ej-item-grupo {
+  font-size: 0.62rem;
+  font-weight: 300;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--auth-muted);
+}
+
+.modal-filtros {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.modal-series-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.75rem;
+  background: #111;
+  border: 1px solid var(--auth-border);
+  border-radius: 6px;
+  padding: 1rem;
+}
+
+.r-input-num {
+  width: 100%;
+  box-sizing: border-box;
+  background: #181818;
+  border: 1px solid var(--auth-border);
+  border-radius: 6px;
+  padding: 0.55rem 0.5rem;
+  font-size: 0.9rem;
+  font-family: var(--body);
+  color: var(--auth-text);
+  outline: none;
+  text-align: center;
+  transition: border-color 0.15s;
+}
+.r-input-num:focus { border-color: var(--auth-accent); }
+
+/* Crear rutina */
+.crear-card {
+  background: #181818;
+  border: 1px solid var(--auth-border);
+  border-radius: 10px;
+  padding: 2rem;
+  margin-top: 1.5rem;
+}
+
+@media (max-width: 480px) {
+  .hero-panel { padding: 1.5rem; }
+  .hero-stats { display: none; }
+  .ej-edit-panel { grid-template-columns: 1fr 1fr; }
+}
+
+/* ── Notas ejercicio ─────────────────────────────── */
+.ej-notas {
+  font-size: 0.68rem;
+  font-weight: 300;
+  color: var(--auth-muted);
+  font-style: italic;
+  margin: 0.3rem 0 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* ── Móvil compacto: fila ejercicio ─────────────── */
+@media (max-width: 480px) {
+  .ej-fila-principal {
+    padding: 0.6rem 0.75rem;
+    gap: 0.6rem;
+  }
+
+  .ej-gif,
+  .ej-gif-placeholder {
+    width: 38px;
+    height: 38px;
+    border-radius: 4px;
+  }
+
+  .ej-num {
+    font-size: 0.85rem;
+    width: 1rem;
+  }
+
+  .ej-nombre {
+    font-size: 0.78rem;
+    margin-bottom: 0.15rem;
+  }
+
+  .ej-chips {
+    gap: 0.3rem;
+  }
+
+  .ej-chip {
+    font-size: 0.58rem;
+    padding: 0.1rem 0.35rem;
+  }
+
+  .ej-btn-icon {
+    width: 26px;
+    height: 26px;
+    font-size: 0.72rem;
+  }
+
+  .ej-edit-panel {
+    grid-template-columns: 1fr 1fr 1fr;
+    padding: 0.75rem;
+    gap: 0.5rem;
+  }
+
+  .ej-notas {
+    font-size: 0.63rem;
+  }
 }
