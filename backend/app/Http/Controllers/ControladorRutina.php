@@ -32,18 +32,16 @@ class ControladorRutina extends Controller
             'descripcion' => 'nullable|string|max:1000',
         ]);
 
-        // Pro: Usamos la relación del usuario para crear
         $rutina = $request->user()->rutinas()->create($validado);
 
         return response()->json($rutina, 201);
     }
 
     /**
-     * Mostrar una rutina específica con todos sus ejercicios y datos de carga.
+     * Mostrar una rutina específica con todos sus ejercicios.
      */
     public function mostrar(Request $request, $id): JsonResponse
     {
-        // Pro: Cargamos los ejercicios directamente
         $rutina = $request->user()->rutinas()
             ->with('ejercicios')
             ->findOrFail($id);
@@ -52,7 +50,7 @@ class ControladorRutina extends Controller
     }
 
     /**
-     * Agregar un ejercicio a la rutina (Uso de Pivot).
+     * Agregar un ejercicio a la rutina.
      */
     public function agregarEjercicio(Request $request, $id): JsonResponse
     {
@@ -67,12 +65,10 @@ class ControladorRutina extends Controller
             'orden'         => 'nullable|integer|min:0',
         ]);
 
-        // Lógica de orden Pro
         if (!isset($validado['orden'])) {
             $validado['orden'] = ($rutina->ejercicios()->max('orden') ?? -1) + 1;
         }
 
-        // Pro: Usamos attach() para la tabla intermedia
         $rutina->ejercicios()->attach($validado['ejercicio_id'], [
             'series'       => $validado['series'],
             'repeticiones' => $validado['repeticiones'],
@@ -99,12 +95,26 @@ class ControladorRutina extends Controller
             'orden'        => 'nullable|integer|min:0',
         ]);
 
-        // Pro: Usamos updateExistingPivot() para no tener que buscar la fila a mano
         $rutina->ejercicios()->updateExistingPivot($ejercicioId, $validado);
 
         return response()->json(['mensaje' => 'Datos de ejercicio actualizados']);
     }
 
+    /**
+     * Quitar un ejercicio de la rutina.
+     * He ajustado los parámetros para que coincidan con la ruta /{rutina}/ejercicios/{ejId}
+     */
+    public function quitarEjercicio(Rutina $rutina, $ejId): JsonResponse
+    {
+        // detach() elimina la relación en la tabla intermedia
+        $rutina->ejercicios()->detach($ejId);
+
+        return response()->json([
+            'mensaje' => 'Ejercicio quitado de la rutina.',
+            'rutina_id' => $rutina->id,
+            'ejercicio_id' => $ejId
+        ], 200);
+    }
 /**
      * Eliminar una rutina completa.
      */
@@ -127,15 +137,5 @@ class ControladorRutina extends Controller
 
         return response()->json(['mensaje' => 'Rutina eliminada correctamente.']);
     }
-    public function quitarEjercicio(Rutina $rutina, $ejercicioId)
-{
-    // detach() busca en la tabla intermedia (rutina_ejercicio) y borra esa relación
-    $rutina->ejercicios()->detach($ejercicioId);
 
-    return response()->json([
-        'mensaje' => 'Ejercicio quitado de la rutina con éxito',
-        'rutina_id' => $rutina->id,
-        'ejercicio_id' => $ejercicioId
-    ], 200);
-}
 }
